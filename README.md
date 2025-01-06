@@ -2,6 +2,10 @@
 
 Modern ve kullanıcı dostu bir alışveriş listesi uygulaması.
 
+## Tanıtım Videosu
+
+[![Akıllı Market Listem Tanıtım](https://img.youtube.com/vi/Ro6nw9_Gn_4/0.jpg)](https://www.youtube.com/watch?v=Ro6nw9_Gn_4)
+
 ## Ekran Görüntüleri
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
