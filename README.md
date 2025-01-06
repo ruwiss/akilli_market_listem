@@ -2,6 +2,16 @@
 
 Modern ve kullanıcı dostu bir alışveriş listesi uygulaması.
 
+## Ekran Görüntüleri
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+  <img src="public/img1.png" width="200" alt="Ekran Görüntüsü 1" />
+  <img src="public/img2.png" width="200" alt="Ekran Görüntüsü 2" />
+  <img src="public/img3.png" width="200" alt="Ekran Görüntüsü 3" />
+  <img src="public/img4.png" width="200" alt="Ekran Görüntüsü 4" />
+  <img src="public/img5.png" width="200" alt="Ekran Görüntüsü 5" />
+</div>
+
 ## Önemli Not
 
 Uygulamayı çalıştırmadan önce `lib/core/constants/api_constants.dart` dosyasındaki `baseUrl` değişkenini kendi API sunucunuzun adresi ile değiştirmeniz gerekmektedir.
