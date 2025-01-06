@@ -7,6 +7,7 @@ import '../../../viewmodel/product_search_view_model.dart';
 import '../../../viewmodel/shopping_list_view_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../../core/constants/api_constants.dart';
 
 enum TimeRange {
   week('1 Hafta'),
@@ -471,10 +472,8 @@ class ProductDetailDialog extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(
                                     AppThemeConstants.radiusM),
                                 child: CachedNetworkImage(
-                                  imageUrl: offer.merchantLogo
-                                          .startsWith('http')
-                                      ? offer.merchantLogo
-                                      : 'http://192.168.1.103:8000${offer.merchantLogo}',
+                                  imageUrl: ApiConstants.getMerchantLogoUrl(
+                                      offer.merchantLogo),
                                   fit: BoxFit.cover,
                                   placeholder: (context, url) => Container(
                                     color: Theme.of(context)

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../constants/api_constants.dart';
 import '../../product/models/product.dart';
 
 enum SortType {
@@ -18,10 +19,17 @@ extension SortTypeExtension on SortType {
 }
 
 class ApiService {
-  static const String baseUrl = 'http://192.168.1.103:8000';
-  final Dio _dio;
+  static final ApiService _instance = ApiService._internal();
+  factory ApiService() => _instance;
+  ApiService._internal();
 
-  ApiService() : _dio = Dio(BaseOptions(baseUrl: baseUrl));
+  final Dio _dio = Dio(
+    BaseOptions(
+      baseUrl: ApiConstants.apiUrl,
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 3),
+    ),
+  );
 
   Future<ApiResponse<List<Product>>> searchProducts({
     required String query,

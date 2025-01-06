@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_theme_constants.dart';
 import '../../../core/theme/color_scheme.dart';
 import '../../models/product.dart';
+import '../../../core/constants/api_constants.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -38,7 +39,7 @@ class ProductCard extends StatelessWidget {
                         borderRadius:
                             BorderRadius.circular(AppThemeConstants.radiusM),
                         child: CachedNetworkImage(
-                          imageUrl: 'http://192.168.1.103:8000${product.image}',
+                          imageUrl: ApiConstants.getImageUrl(product.image),
                           width: 80,
                           height: 80,
                           fit: BoxFit.cover,
@@ -100,8 +101,8 @@ class ProductCard extends StatelessWidget {
                                 height: 20,
                                 constraints: const BoxConstraints(maxWidth: 80),
                                 child: CachedNetworkImage(
-                                  imageUrl:
-                                      'http://192.168.1.103:8000${product.merchantLogo}',
+                                  imageUrl: ApiConstants.getMerchantLogoUrl(
+                                      product.merchantLogo),
                                   fit: BoxFit.contain,
                                   placeholder: (context, url) => Container(
                                     color: theme.colorScheme.primary

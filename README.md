@@ -1,31 +1,33 @@
-# Akıllı Alışveriş Listem
+# Akıllı Market Listem
 
-Bu proje, Flutter kullanılarak geliştirilmiş modern bir alışveriş listesi mobil uygulamasıdır. MVVM (Model-View-ViewModel) mimarisi kullanılarak temiz ve sürdürülebilir bir kod yapısı oluşturulmuştur.
+Modern ve kullanıcı dostu bir alışveriş listesi uygulaması.
+
+## Önemli Not
+
+Uygulamayı çalıştırmadan önce `lib/core/constants/api_constants.dart` dosyasındaki `baseUrl` değişkenini kendi API sunucunuzun adresi ile değiştirmeniz gerekmektedir.
+
+## API Kaynağı
+
+Bu uygulama [Cimri Market API](https://github.com/ruwiss/cimri_market_api) projesini kullanmaktadır. API'yi yerel olarak çalıştırmak için ilgili repoyu klonlayıp kurulumunu yapmanız gerekmektedir.
 
 ## Özellikler
 
-- Alışveriş listesi oluşturma ve yönetme
-- Ürünleri kategorilere ayırma
-- Alışveriş geçmişi ve istatistikler
-- Offline kullanım için yerel veritabanı desteği
+- Market ürünlerini arama ve fiyat karşılaştırma
+- Alışveriş listesi oluşturma
+- Ürün fiyat geçmişi takibi
+- Arşivlenmiş listeler
 - Modern ve kullanıcı dostu arayüz
-- Sürükle-bırak ile kolay liste düzenleme
-- Alışveriş bütçesi takibi ve grafikleri
 
-## Kullanılan Teknolojiler
+## Kurulum
 
-- **State Management:** Provider
-- **Routing:** Go Router
-- **API İletişimi:** Dio
-- **Veritabanı:** SQLite
-- **Grafikler:** FL Chart
-- **Görsel Önbellekleme:** Cached Network Image
-- **Bildirimler:** Toastification
-
-## Mimari
-
-Uygulama MVVM mimarisi ile geliştirilmiş olup, aşağıdaki katmanlardan oluşmaktadır:
-
-- **Model:** Veri modelleri ve iş mantığı
-- **View:** Kullanıcı arayüzü bileşenleri
-- **ViewModel:** View ve Model arasındaki iletişimi sağlayan katman
+1. Flutter SDK'yı yükleyin
+2. Projeyi klonlayın
+3. Bağımlılıkları yükleyin:
+```bash
+flutter pub get
+```
+4. API URL'sini güncelleyin
+5. Uygulamayı çalıştırın:
+```bash
+flutter run
+```

@@ -1,8 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../../core/theme/app_theme_constants.dart';
-import '../../../core/theme/color_scheme.dart';
 import '../../models/shopping_item.dart';
 import '../dialogs/update_price_dialog.dart';
 
