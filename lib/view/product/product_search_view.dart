@@ -166,16 +166,25 @@ class ProductSearchView extends StatelessWidget {
                         return ProductCard(
                           product: product,
                           onTap: () async {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
                             await viewModel.showProductDetail(product.url);
-                            if (viewModel.selectedProduct != null &&
-                                context.mounted) {
-                              showDialog(
-                                context: context,
-                                builder: (context) => ProductDetailDialog(
-                                  productDetail: viewModel.selectedProduct!,
-                                  productImage: product.image,
-                                ),
-                              );
+                            if (context.mounted) {
+                              Navigator.pop(context); // Remove loading dialog
+                              if (viewModel.selectedProduct != null) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => ProductDetailDialog(
+                                    productDetail: viewModel.selectedProduct!,
+                                    productImage: product.image,
+                                  ),
+                                );
+                              }
                             }
                           },
                           onAddToList: () async {
@@ -252,32 +261,37 @@ class ProductSearchView extends StatelessWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            PopupMenuItem<SortType>(
-              value: SortType.priceAsc,
-              child: ListTile(
-                title: const Text('En Düşük Fiyat'),
-                leading: Radio<SortType>(
-                  value: SortType.priceAsc,
-                  groupValue: viewModel.sortType,
-                  onChanged: (value) {
-                    viewModel.setSortType(value);
-                    Navigator.pop(context);
-                  },
-                ),
+            ListTile(
+              title: const Text('Normal'),
+              leading: Radio<SortType?>(
+                value: null,
+                groupValue: viewModel.sortType,
+                onChanged: (value) {
+                  viewModel.setSortType(value);
+                  Navigator.pop(context);
+                },
               ),
             ),
-            PopupMenuItem<SortType>(
-              value: SortType.priceDesc,
-              child: ListTile(
-                title: const Text('En Yüksek Fiyat'),
-                leading: Radio<SortType>(
-                  value: SortType.priceDesc,
-                  groupValue: viewModel.sortType,
-                  onChanged: (value) {
-                    viewModel.setSortType(value);
-                    Navigator.pop(context);
-                  },
-                ),
+            ListTile(
+              title: const Text('En Düşük Fiyat'),
+              leading: Radio<SortType?>(
+                value: SortType.priceAsc,
+                groupValue: viewModel.sortType,
+                onChanged: (value) {
+                  viewModel.setSortType(value);
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            ListTile(
+              title: const Text('En Yüksek Fiyat'),
+              leading: Radio<SortType?>(
+                value: SortType.priceDesc,
+                groupValue: viewModel.sortType,
+                onChanged: (value) {
+                  viewModel.setSortType(value);
+                  Navigator.pop(context);
+                },
               ),
             ),
           ],
