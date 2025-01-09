@@ -89,74 +89,76 @@ class ArchiveView extends StatelessWidget {
             );
           }
 
-          return ListView.builder(
-            padding: const EdgeInsets.all(AppThemeConstants.spacingM),
-            itemCount: viewModel.archivedLists.length,
-            itemBuilder: (context, index) {
-              final archivedList = viewModel.archivedLists[index];
-              final dateStr = DateFormat('dd MMMM yyyy, HH:mm', 'tr_TR')
+              return ListView.builder(
+              padding: const EdgeInsets.all(AppThemeConstants.spacingM),
+              itemCount: viewModel.archivedLists.length,
+              itemBuilder: (context, index) {
+                final archivedList = viewModel.archivedLists[index];
+                final dateStr = DateFormat('dd MMMM yyyy, HH:mm', 'tr_TR')
                   .format(DateTime.parse(archivedList.date));
 
-              return Dismissible(
+                final completedItems = archivedList.items
+                  .where((item) => item['isCompleted'] == true)
+                  .length;
+                final totalItems = archivedList.items.length;
+                final completionRate = (completedItems / totalItems * 100).toInt();
+
+                return Dismissible(
                 key: ValueKey('archived_list_${archivedList.id}'),
                 direction: DismissDirection.endToStart,
                 confirmDismiss: (direction) async {
                   final result = await showDialog<bool>(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Listeyi Sil'),
-                      content: const Text(
-                          'Bu arşivlenmiş listeyi silmek istediğinize emin misiniz?'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, false),
-                          child: const Text('İptal'),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, true),
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.red,
-                          ),
-                          child: const Text('Sil'),
-                        ),
-                      ],
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Listeyi Sil'),
+                    content: const Text(
+                      'Bu arşivlenmiş listeyi silmek istediğinize emin misiniz?'),
+                    actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text('İptal'),
                     ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      style: TextButton.styleFrom(
+                      foregroundColor: Colors.red,
+                      ),
+                      child: const Text('Sil'),
+                    ),
+                    ],
+                  ),
                   );
 
                   if (result == true) {
-                    if (context.mounted) {
-                      await viewModel.deleteArchivedList(
-                          context, archivedList.id!);
-                      toastification.show(
-                        // ignore: use_build_context_synchronously
-                        context: context,
-                        type: ToastificationType.success,
-                        style: ToastificationStyle.flatColored,
-                        title: const Text('Liste Silindi'),
-                        description:
-                            const Text('Arşivlenmiş liste başarıyla silindi.'),
-                        autoCloseDuration: const Duration(seconds: 3),
-                      );
-                    }
-                    return true;
+                  if (context.mounted) {
+                    await viewModel.deleteArchivedList(context, archivedList.id!);
+                    toastification.show(
+                    context: context,
+                    type: ToastificationType.success,
+                    style: ToastificationStyle.flatColored,
+                    title: const Text('Liste Silindi'),
+                    description: const Text('Arşivlenmiş liste başarıyla silindi.'),
+                    autoCloseDuration: const Duration(seconds: 3),
+                    );
+                  }
+                  return true;
                   }
                   return false;
                 },
                 background: Container(
                   alignment: Alignment.centerRight,
-                  padding:
-                      const EdgeInsets.only(right: AppThemeConstants.spacingM),
+                  padding: const EdgeInsets.only(right: AppThemeConstants.spacingM),
                   decoration: BoxDecoration(
-                    color: Colors.red.shade100,
-                    borderRadius:
-                        BorderRadius.circular(AppThemeConstants.radiusM),
+                  color: Colors.red.shade100,
+                  borderRadius: BorderRadius.circular(AppThemeConstants.radiusM),
                   ),
                   child: Icon(
-                    Icons.delete_outline,
-                    color: Colors.red.shade700,
+                  Icons.delete_outline,
+                  color: Colors.red.shade700,
                   ),
                 ),
                 child: Card(
+                  elevation: 2,
                   margin: const EdgeInsets.only(bottom: AppThemeConstants.spacingM),
                   child: InkWell(
                   onTap: () {
@@ -168,64 +170,158 @@ class ArchiveView extends StatelessWidget {
                     );
                   },
                   borderRadius: BorderRadius.circular(AppThemeConstants.radiusM),
-                  child: Padding(
+                  child: Container(
+                    decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 4,
+                      ),
+                    ),
+                    ),
+                    child: Padding(
                     padding: const EdgeInsets.all(AppThemeConstants.spacingM),
                     child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
                         Expanded(
-                        child: Column(
+                          child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                          Text(
+                            Text(
                             archivedList.name,
                             style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
                             ),
-                          ),
-                          const SizedBox(height: AppThemeConstants.spacingXS),
-                          Text(
-                            dateStr,
-                            style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                            fontSize: 13,
                             ),
-                          ),
-                          const SizedBox(height: AppThemeConstants.spacingXS),
-                          Text(
-                            '${archivedList.items.length} Ürün',
-                            style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                            fontSize: 13,
+                            const SizedBox(height: AppThemeConstants.spacingXS),
+                            Row(
+                            children: [
+                              Icon(
+                              Icons.calendar_today_outlined,
+                              size: 14,
+                              color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.6),
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                              dateStr,
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.6),
+                                fontSize: 13,
+                              ),
+                              ),
+                            ],
                             ),
-                          ),
                           ],
-                        ),
+                          ),
                         ),
                         Container(
-                        padding: const EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                           horizontal: AppThemeConstants.spacingM,
                           vertical: AppThemeConstants.spacingS,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(AppThemeConstants.radiusM),
-                        ),
-                        child: Text(
+                          ),
+                          decoration: BoxDecoration(
+                          color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.1),
+                          borderRadius:
+                            BorderRadius.circular(AppThemeConstants.radiusM),
+                          ),
+                          child: Text(
                           '${archivedList.totalAmount.toStringAsFixed(2)} ₺',
                           style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
                           ),
                         ),
-                        ),
-                      ],
+                        ],
                       ),
-                    ],
+                      const SizedBox(height: AppThemeConstants.spacingM),
+                      Row(
+                        children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                          horizontal: AppThemeConstants.spacingS,
+                          vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                          color: Theme.of(context)
+                            .colorScheme
+                            .secondary
+                            .withOpacity(0.1),
+                          borderRadius:
+                            BorderRadius.circular(AppThemeConstants.radiusS),
+                          ),
+                          child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                            Icons.shopping_cart_outlined,
+                            size: 14,
+                            color: Theme.of(context).colorScheme.secondary,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                            '${archivedList.items.length} Ürün',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            ),
+                          ],
+                          ),
+                        ),
+                        const SizedBox(width: AppThemeConstants.spacingS),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                          horizontal: AppThemeConstants.spacingS,
+                          vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                          color: Theme.of(context)
+                            .colorScheme
+                            .tertiary
+                            .withOpacity(0.1),
+                          borderRadius:
+                            BorderRadius.circular(AppThemeConstants.radiusS),
+                          ),
+                          child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                            Icons.check_circle_outline,
+                            size: 14,
+                            color: Theme.of(context).colorScheme.tertiary,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                            '%$completionRate Tamamlandı',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.tertiary,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            ),
+                          ],
+                          ),
+                        ),
+                        ],
+                      ),
+                      ],
+                    ),
                     ),
                   ),
                   ),
