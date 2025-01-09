@@ -157,81 +157,80 @@ class ArchiveView extends StatelessWidget {
                   ),
                 ),
                 child: Card(
-                  margin:
-                      const EdgeInsets.only(bottom: AppThemeConstants.spacingM),
+                  margin: const EdgeInsets.only(bottom: AppThemeConstants.spacingM),
                   child: InkWell(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) => ArchivedListDetailDialog(
-                          archivedList: archivedList,
-                        ),
-                      );
-                    },
-                    borderRadius:
-                        BorderRadius.circular(AppThemeConstants.radiusM),
-                    child: Padding(
-                      padding: const EdgeInsets.all(AppThemeConstants.spacingM),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      dateStr,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                        height: AppThemeConstants.spacingXS),
-                                    Text(
-                                      '${archivedList.items.length} Ürün',
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface
-                                            .withOpacity(0.6),
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: AppThemeConstants.spacingM,
-                                  vertical: AppThemeConstants.spacingS,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(
-                                      AppThemeConstants.radiusM),
-                                ),
-                                child: Text(
-                                  '${archivedList.totalAmount.toStringAsFixed(2)} ₺',
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ],
+                  onTap: () {
+                    showDialog(
+                    context: context,
+                    builder: (_) => ArchivedListDetailDialog(
+                      archivedList: archivedList,
+                    ),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(AppThemeConstants.radiusM),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppThemeConstants.spacingM),
+                    child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                          Text(
+                            archivedList.name,
+                            style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            ),
                           ),
-                        ],
+                          const SizedBox(height: AppThemeConstants.spacingXS),
+                          Text(
+                            dateStr,
+                            style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                            fontSize: 13,
+                            ),
+                          ),
+                          const SizedBox(height: AppThemeConstants.spacingXS),
+                          Text(
+                            '${archivedList.items.length} Ürün',
+                            style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                            fontSize: 13,
+                            ),
+                          ),
+                          ],
+                        ),
+                        ),
+                        Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppThemeConstants.spacingM,
+                          vertical: AppThemeConstants.spacingS,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(AppThemeConstants.radiusM),
+                        ),
+                        child: Text(
+                          '${archivedList.totalAmount.toStringAsFixed(2)} ₺',
+                          style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        ),
+                      ],
                       ),
+                    ],
                     ),
                   ),
+                  ),
                 ),
+
               );
             },
           );

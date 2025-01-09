@@ -400,9 +400,6 @@ class ProductDetailDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productSearchViewModel = Provider.of<ProductSearchViewModel>(context);
-    final shoppingListViewModel = Provider.of<ShoppingListViewModel>(context);
-
     return Dialog(
       backgroundColor: Theme.of(context).colorScheme.surface,
       shape: RoundedRectangleBorder(

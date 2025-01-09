@@ -41,9 +41,10 @@ class DatabaseService {
 
     await db.execute('''
       CREATE TABLE archived_lists(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        date TEXT NOT NULL,
-        total_amount REAL NOT NULL
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      date TEXT NOT NULL,
+      total_amount REAL NOT NULL
       )
     ''');
 
@@ -75,11 +76,12 @@ class DatabaseService {
         await db.execute('DROP TABLE IF EXISTS archived_items');
 
         await db.execute('''
-          CREATE TABLE archived_lists(
+            CREATE TABLE archived_lists(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
             date TEXT NOT NULL,
             total_amount REAL NOT NULL
-          )
+            )
         ''');
 
         await db.execute('''
@@ -142,6 +144,7 @@ class DatabaseService {
     await db.transaction((txn) async {
       // Listeyi arşivle
       listId = await txn.insert('archived_lists', {
+        'name': list.name,
         'date': list.date,
         'total_amount': list.totalAmount,
       });
@@ -191,6 +194,7 @@ class DatabaseService {
 
       lists.add(ArchivedList(
         id: map['id'],
+        name: map['name'],
         date: map['date'],
         totalAmount: map['total_amount'],
         items: itemMaps,

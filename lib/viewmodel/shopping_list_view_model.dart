@@ -152,7 +152,7 @@ class ShoppingListViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> archiveList(BuildContext context) async {
+  Future<void> archiveList(BuildContext context, String name) async {
     try {
       if (_items.isEmpty) {
         if (context.mounted) {
@@ -165,6 +165,7 @@ class ShoppingListViewModel extends ChangeNotifier {
 
       // Arşiv listesi oluştur
       final archivedList = ArchivedList(
+        name: name,
         date: DateTime.now().toString(),
         totalAmount: totalAmount,
         items: _items
@@ -201,14 +202,18 @@ class ShoppingListViewModel extends ChangeNotifier {
         // Arşiv listesini güncelle
         context.read<ArchiveViewModel>().loadArchivedLists();
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Liste başarıyla arşivlendi')),
+        ToastUtils.showSuccessToast(
+          context,
+          title: 'Liste Arşivlendi',
+          description: '$name başarıyla arşivlendi.',
         );
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Liste arşivlenirken bir hata oluştu')),
+        ToastUtils.showErrorToast(
+          context,
+          title: 'Hata',
+          description: 'Liste arşivlenirken bir hata oluştu',
         );
       }
       debugPrint('Liste arşivlenirken hata oluştu: $e');

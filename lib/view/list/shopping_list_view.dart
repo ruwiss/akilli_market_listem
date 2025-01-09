@@ -4,8 +4,65 @@ import '../../core/theme/app_theme_constants.dart';
 import '../../viewmodel/shopping_list_view_model.dart';
 import '../../product/widgets/cards/shopping_item_card.dart';
 import '../../product/widgets/sections/checkout_section.dart';
-import '../product/product_search_view.dart';
 import 'package:intl/intl.dart';
+
+class _ListNameDialog extends StatefulWidget {
+  const _ListNameDialog({super.key});
+
+  @override
+  State<_ListNameDialog> createState() => _ListNameDialogState();
+}
+
+class _ListNameDialogState extends State<_ListNameDialog> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Liste İsmi'),
+      content: TextField(
+        controller: _controller,
+        autofocus: true,
+        decoration: const InputDecoration(
+          hintText: 'Örn: Market Alışverişi, Haftalık Liste',
+          labelText: 'Liste İsmi',
+        ),
+        onSubmitted: (value) {
+          if (value.isNotEmpty) {
+            Navigator.pop(context, value);
+          }
+        },
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('İptal'),
+        ),
+        TextButton(
+          onPressed: () {
+            final text = _controller.text;
+            if (text.isNotEmpty) {
+              Navigator.pop(context, text);
+            }
+          },
+          child: const Text('Tamam'),
+        ),
+      ],
+    );
+  }
+}
 
 class ShoppingListView extends StatelessWidget {
   const ShoppingListView({super.key});
@@ -76,7 +133,14 @@ class ShoppingListView extends StatelessWidget {
               CheckoutSection(
                 totalAmount: viewModel.totalAmount,
                 onCheckout: () {
-                  viewModel.archiveList(context);
+                  showDialog<String>(
+                    context: context,
+                    builder: (context) => const _ListNameDialog(),
+                  ).then((name) {
+                    if (name != null && name.isNotEmpty) {
+                      viewModel.archiveList(context, name);
+                    }
+                  });
                 },
                 isAllCompleted: viewModel.items.isNotEmpty &&
                     viewModel.items.any((item) => item.isCompleted),

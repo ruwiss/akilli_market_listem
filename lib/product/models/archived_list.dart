@@ -2,12 +2,14 @@ import 'shopping_item.dart';
 
 class ArchivedList {
   final int? id;
+  final String name;
   final String date;
   final double totalAmount;
   final List<Map<String, dynamic>> items;
 
   ArchivedList({
     this.id,
+    required this.name,
     required this.date,
     required this.totalAmount,
     required this.items,
@@ -16,8 +18,9 @@ class ArchivedList {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'name': name,
       'date': date,
-      'totalAmount': totalAmount,
+      'total_amount': totalAmount,
       'items': items,
     };
   }
@@ -25,8 +28,9 @@ class ArchivedList {
   factory ArchivedList.fromMap(Map<String, dynamic> map) {
     return ArchivedList(
       id: map['id'],
+      name: map['name'],
       date: map['date'],
-      totalAmount: map['totalAmount'],
+      totalAmount: map['total_amount'],
       items: List<Map<String, dynamic>>.from(map['items']),
     );
   }
